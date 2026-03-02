@@ -13,7 +13,7 @@ function Question({question, onClickVariant, step, totalQuestions, selectedVaria
         {
             return selectedVariant === question.correct ? 'correct' : 'wrong';
         }
-        if(index === question.correct)return 'correct';
+        //if(index === question.correct)return 'correct';
         return "";
     }
 
