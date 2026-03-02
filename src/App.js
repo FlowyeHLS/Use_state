@@ -49,22 +49,42 @@ const questions =
   },
 ]
 
-function App() {
+function App() 
+{
   const totalQuestions = questions.length;
   const [step, setStep] = useState(0);
   const [correct, setCorrect] = useState(0);
+
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [showResult, setShowResult] = useState(false);
+
+
   let question = questions[step];
-  const onClickVariant = (variant) => 
+  
+  const onClickVariant = (variant) => {
+    setSelectedVariant(variant);
+    if(variant === question.correct)setCorrect(correct+1);
+    setShowResult(true);
+    setTimeout(() => {
+        setStep(step+1);
+        setSelectedVariant(null);
+        setShowResult(false);
+    }, 1500);
+};
+
+  const restart = () => 
     {
-      setStep(step+1);
-      if(variant === question.correct)setCorrect(correct+1)
+      setStep(0);
+      setCorrect(0);
     };
+
   return (
     <div className="main">
       {
         step < totalQuestions ?
-        <Question question={question} onClickVariant={onClickVariant} step={step} totalQuestions={totalQuestions}/>
-        : <Final totalQuestions={totalQuestions} correctAnswers={correct}/>
+        <Question question={question} onClickVariant={onClickVariant} step={step} totalQuestions={totalQuestions} questions={questions}
+        selectedVariant={selectedVariant} showResult={showResult}/>
+        : <Final totalQuestions={totalQuestions} correctAnswers={correct} onRestart={restart}/>
       }
        {/* <h4 style={{display: "flex", justifyContent:"space-between"}}><div>Номер вопросов:</div> <div>{step}</div> </h4>
       <h4 style={{display: "flex", justifyContent:"space-between"}}><div> Ответов:</div> <div>{correct}</div> </h4> */}
